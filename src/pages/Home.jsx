@@ -1,4 +1,5 @@
-// src/pages/Home.jsx
+// VENTANA INCIAL- LANDING PAGE
+
 import React from 'react';
 import { 
   ArrowRight, 
