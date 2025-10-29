@@ -1,5 +1,5 @@
 import React from 'react';
-import StyleNav from '../UI/StyleNav'; // Adjust the path if necessary
+import StyleNav from '../UI/styleNav'; // Adjust the path if necessary
 
 function Navbar() {
   return (
