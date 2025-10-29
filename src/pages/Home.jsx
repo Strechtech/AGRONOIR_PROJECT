@@ -1,25 +1,16 @@
 // ============================================
-// 📄 LANDING PAGE - CLEAN CODE VERSION
+// 🎨 LANDING PAGE - MODERNIZED + NAVIGATION
 // ============================================
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import { 
-  ArrowRight, 
-  CheckCircle, 
-  Factory,
-  TrendingUp,
-  Clock,
-  Users,
-  Award,
-  PackageCheck,
-  Zap,
-  Shield,
-  Cpu,
-  Target,
+  ArrowRight, Factory, TrendingUp, Clock, Users, Award,
+  PackageCheck, Zap, Shield, Cpu, Target,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // 🔹 navegación
 
-// 🎯 Hooks y componentes UI
+// Hooks y componentes personalizados
 import { useContactForm } from '../hooks/LogicForms';
 import { FormSection } from '../UI/Forms';
 
@@ -35,30 +26,10 @@ const STATS = [
 ];
 
 const GUARANTEES = [
-  {
-    icon: TrendingUp,
-    title: "Mejora Medible",
-    metric: "20-35% incremento en eficiencia",
-    description: "Resultados cuantificables en los primeros 3 meses",
-  },
-  {
-    icon: Clock,
-    title: "Respuesta Rápida",
-    metric: "Soporte en menos de 2 horas",
-    description: "Equipo técnico disponible cuando lo necesites",
-  },
-  {
-    icon: Users,
-    title: "Capacitación Incluida",
-    metric: "Entrenamiento completo del personal",
-    description: "Tu equipo dominará la tecnología desde el día uno",
-  },
-  {
-    icon: Award,
-    title: "Garantía Total",
-    metric: "12 meses de garantía",
-    description: "Respaldamos la calidad de nuestro trabajo",
-  },
+  { icon: TrendingUp, title: "Mejora Medible", metric: "20-35% más eficiencia", description: "Resultados en los primeros 3 meses" },
+  { icon: Clock, title: "Respuesta Rápida", metric: "Menos de 2 horas", description: "Atención técnica inmediata" },
+  { icon: Users, title: "Capacitación Incluida", metric: "Entrenamiento total", description: "Tu equipo domina la tecnología" },
+  { icon: Award, title: "Garantía Total", metric: "12 meses", description: "Respaldo completo de calidad" },
 ];
 
 const SECTORS = [
@@ -75,9 +46,9 @@ const SECTORS = [
 // ============================================
 
 const StatCard = ({ value, label }) => (
-  <div className="text-center transform hover:scale-105 transition-transform">
-    <p className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">{value}</p>
-    <p className="text-gray-600 font-medium">{label}</p>
+  <div className="text-center transform hover:scale-110 transition-transform">
+    <p className="text-4xl md:text-5xl font-bold text-indigo-600 mb-2">{value}</p>
+    <p className="text-gray-700 font-medium">{label}</p>
   </div>
 );
 
@@ -87,12 +58,12 @@ StatCard.propTypes = {
 };
 
 const GuaranteeCard = ({ icon: Icon, title, metric, description }) => (
-  <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-transform hover:-translate-y-1">
-    <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center mb-4">
+  <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-md hover:shadow-xl transition-all hover:-translate-y-1 border border-gray-100">
+    <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-500 rounded-xl flex items-center justify-center mb-4 shadow-md">
       <Icon className="w-8 h-8 text-white" />
     </div>
     <h3 className="text-xl font-bold text-gray-900 mb-1">{title}</h3>
-    <p className="text-blue-600 font-semibold mb-2">{metric}</p>
+    <p className="text-indigo-600 font-semibold mb-2">{metric}</p>
     <p className="text-gray-600 text-sm">{description}</p>
   </div>
 );
@@ -105,8 +76,8 @@ GuaranteeCard.propTypes = {
 };
 
 const SectorCard = ({ icon: Icon, name, description }) => (
-  <div className="bg-slate-50 rounded-xl p-6 text-center hover:bg-blue-50 hover:shadow-lg transition-transform hover:-translate-y-1 group">
-    <Icon className="w-12 h-12 text-blue-600 mx-auto mb-3 group-hover:scale-110 transition-transform" />
+  <div className="bg-slate-50 rounded-2xl p-6 text-center hover:bg-gradient-to-br hover:from-indigo-50 hover:to-fuchsia-50 hover:shadow-lg transition-transform hover:-translate-y-1 group">
+    <Icon className="w-12 h-12 text-indigo-600 mx-auto mb-3 group-hover:text-fuchsia-600 group-hover:scale-110 transition-transform" />
     <p className="font-semibold text-gray-900 mb-1">{name}</p>
     <p className="text-sm text-gray-600">{description}</p>
   </div>
@@ -119,70 +90,75 @@ SectorCard.propTypes = {
 };
 
 // ============================================
-// 🧱 COMPONENTES DE SECCIÓN
+// 🧱 SECCIONES
 // ============================================
 
-const HeroSection = ({ onCTAClick }) => (
-  <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 py-32 overflow-hidden">
-    <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:50px_50px]" />
+const HeroSection = ({ onCTAClick }) => {
+  const navigate = useNavigate(); // ✅ Hook para redirigir
 
-    <div className="container mx-auto px-4 relative z-10 text-center">
-      <div className="inline-flex items-center gap-2 bg-blue-500/20 backdrop-blur-sm px-6 py-3 rounded-full border border-blue-400/30 mb-8">
-        <Factory className="w-5 h-5 text-blue-300" />
-        <span className="text-blue-100 font-medium">Control Industrial de Precisión</span>
+  return (
+    <section className="relative bg-gradient-to-br from-slate-900 via-indigo-900 to-fuchsia-800 py-32 overflow-hidden">
+      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:50px_50px]" />
+
+      <div className="container mx-auto px-4 relative z-10 text-center">
+        <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 mb-8">
+          <Factory className="w-5 h-5 text-fuchsia-300" />
+          <span className="text-indigo-100 font-medium">Control Industrial Avanzado</span>
+        </div>
+
+        <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+          Tecnología que <br />
+          <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+            Revoluciona Industrias
+          </span>
+        </h1>
+
+        <p className="text-xl md:text-2xl text-indigo-100 leading-relaxed mb-10 max-w-3xl mx-auto">
+          Soluciones inteligentes para automatización, monitoreo y eficiencia industrial. 
+          Tecnología lista para el futuro.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={onCTAClick}
+            className="bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-indigo-500 hover:to-fuchsia-500 transition-transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
+          >
+            Consultoría Gratuita <ArrowRight className="w-5 h-5" />
+          </button>
+
+          {/* ✅ BOTÓN QUE NAVEGA A /services */}
+          <button
+            onClick={() => navigate('/services')}
+            className="bg-white/10 backdrop-blur-md text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/20 border border-white/30 transition-all"
+          >
+            Ver Proyectos
+          </button>
+        </div>
       </div>
-
-      <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-        Innovación que <br />
-        <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-          Transforma Industrias
-        </span>
-      </h1>
-
-      <p className="text-xl md:text-2xl text-slate-300 leading-relaxed mb-10 max-w-3xl mx-auto">
-        Soluciones avanzadas de automatización y control para maximizar la eficiencia 
-        de tu operación industrial. Del campo a la fábrica.
-      </p>
-
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <button
-          onClick={onCTAClick}
-          className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg"
-        >
-          Consultoría Gratuita <ArrowRight className="w-5 h-5" />
-        </button>
-        <button className="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/20 transition-all border border-white/30">
-          Ver Proyectos
-        </button>
-      </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 HeroSection.propTypes = { onCTAClick: PropTypes.func.isRequired };
 
 const StatsSection = () => (
   <section className="py-20 bg-white">
     <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
-      {STATS.map((stat) => (
-        <StatCard key={stat.label} {...stat} />
-      ))}
+      {STATS.map((stat) => <StatCard key={stat.label} {...stat} />)}
     </div>
   </section>
 );
 
 const GuaranteesSection = () => (
-  <section className="py-20 bg-slate-50">
+  <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
     <div className="container mx-auto px-4 text-center">
       <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">¿Por qué elegirnos?</h2>
       <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
-        Resultados garantizados respaldados por años de experiencia y cientos de clientes satisfechos.
+        Experiencia, rapidez y resultados comprobables.
       </p>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-        {GUARANTEES.map((item) => (
-          <GuaranteeCard key={item.title} {...item} />
-        ))}
+        {GUARANTEES.map((item) => <GuaranteeCard key={item.title} {...item} />)}
       </div>
     </div>
   </section>
@@ -193,31 +169,28 @@ const SectorsSection = () => (
     <div className="container mx-auto px-4 text-center">
       <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Sectores que Atendemos</h2>
       <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
-        Experiencia comprobada en múltiples industrias con soluciones personalizadas.
+        Soluciones adaptadas a cada industria.
       </p>
-
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-6xl mx-auto">
-        {SECTORS.map((sector) => (
-          <SectorCard key={sector.name} {...sector} />
-        ))}
+        {SECTORS.map((sector) => <SectorCard key={sector.name} {...sector} />)}
       </div>
     </div>
   </section>
 );
 
 const CTASection = ({ onCTAClick }) => (
-  <section className="py-20 bg-gradient-to-br from-blue-600 to-cyan-600 text-center">
+  <section className="py-20 bg-gradient-to-br from-fuchsia-600 to-indigo-700 text-center">
     <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-      ¿Listo para transformar tu operación?
+      ¿Listo para optimizar tu industria?
     </h2>
-    <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-      Únete a más de 200 empresas que ya optimizaron sus procesos con nosotros.
+    <p className="text-xl text-fuchsia-100 mb-8 max-w-2xl mx-auto">
+      Más de 200 empresas ya transformaron su producción.
     </p>
     <button
       onClick={onCTAClick}
-      className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-transform hover:scale-105 inline-flex items-center gap-2 shadow-lg"
+      className="bg-white text-indigo-700 px-8 py-4 rounded-lg font-semibold hover:bg-indigo-50 transition-transform hover:scale-105 inline-flex items-center gap-2 shadow-lg"
     >
-      Comenzar Ahora <ArrowRight className="w-5 h-5" />
+      Empezar Ahora <ArrowRight className="w-5 h-5" />
     </button>
   </section>
 );
@@ -225,17 +198,13 @@ const CTASection = ({ onCTAClick }) => (
 CTASection.propTypes = { onCTAClick: PropTypes.func.isRequired };
 
 // ============================================
-// 🏠 MAIN COMPONENT
+// 🏠 COMPONENTE PRINCIPAL
 // ============================================
 
 export default function Home() {
   const {
-    formData,
-    errors,
-    isSubmitting,
-    submitStatus,
-    handleChange,
-    handleSubmit,
+    formData, errors, isSubmitting, submitStatus,
+    handleChange, handleSubmit,
   } = useContactForm();
 
   const scrollToContact = () => {
