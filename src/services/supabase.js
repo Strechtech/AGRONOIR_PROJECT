@@ -19,6 +19,10 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   }
 });
 
+// ==========================================
+// 📧 FUNCIONES DE GESTIÓN DE CORREOS (EXISTENTES)
+// ==========================================
+
 // 🆕 Guardar contacto Y enviar emails automáticamente
 export const saveContact = async (contactData) => {
   try {
@@ -174,31 +178,108 @@ export const testConnection = async () => {
   }
 };
 
-// 🆕 FUNCIÓN PARA PROBAR LA EDGE FUNCTION DIRECTAMENTE
-export const testEdgeFunction = async () => {
+// ==========================================
+// 🤖 FUNCIONES DE CHAT IA (NUEVAS)
+// ==========================================
+
+/**
+ * Envía un mensaje al chat IA y obtiene una respuesta
+ * @param {string} prompt - El mensaje del usuario
+ * @returns {Promise<{success: boolean, reply?: string, error?: string}>}
+ */
+export const sendChatMessage = async (prompt) => {
   try {
-    console.log('🧪 Probando Edge Function...');
+    console.log('🤖 Enviando mensaje al chat IA:', prompt);
     
-    const { data, error } = await supabase.functions.invoke('resend-email', {
-      body: {
-        name: 'Test User',
-        email: 'jpachacamasimbana@gmail.com', // 🔴 CAMBIA A TU EMAIL
-        company: 'Test Company',
-        sector: 'Manufactura',
-        message: 'Este es un mensaje de prueba'
-      }
+    // Validar que el prompt no esté vacío
+    if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
+      console.error('❌ Prompt vacío o inválido');
+      return {
+        success: false,
+        error: 'Por favor escribe un mensaje válido'
+      };
+    }
+    
+    // Llamar a la Edge Function chat-ai (sin JWT)
+    const { data, error } = await supabase.functions.invoke('chat-ai', {
+      body: { prompt: prompt.trim() }
     });
 
     if (error) {
-      console.error('❌ Error en test:', error);
-      return { success: false, error: error.message };
+      console.error('❌ Error al invocar chat-ai:', error);
+      
+      // Mensajes de error más amigables
+      let errorMessage = 'Error al comunicarse con el asistente virtual';
+      if (error.message?.includes('fetch')) {
+        errorMessage = 'No se pudo conectar con el servidor. Verifica tu conexión.';
+      } else if (error.message?.includes('CORS')) {
+        errorMessage = 'Error de configuración del servidor. Contacta al administrador.';
+      }
+      
+      return {
+        success: false,
+        error: errorMessage
+      };
     }
 
-    console.log('✅ Test exitoso:', data);
-    return { success: true, data };
+    // Verificar que la respuesta tenga el formato esperado
+    if (!data) {
+      console.error('❌ Respuesta vacía del servidor');
+      return {
+        success: false,
+        error: 'No se recibió respuesta del servidor'
+      };
+    }
+
+    if (data.success && data.reply) {
+      console.log('✅ Respuesta del chat IA recibida:', data.reply.substring(0, 50) + '...');
+      return { 
+        success: true, 
+        reply: data.reply 
+      };
+    } else {
+      console.error('❌ Error en la respuesta:', data.error);
+      return { 
+        success: false, 
+        error: data.error || 'No se pudo generar una respuesta. Intenta nuevamente.' 
+      };
+    }
+
+  } catch (error) {
+    console.error('❌ Excepción al enviar mensaje al chat:', error);
+    
+    // Error genérico amigable
+    return { 
+      success: false, 
+      error: 'Ocurrió un error inesperado. Por favor intenta nuevamente.' 
+    };
+  }
+};
+
+/**
+ * Prueba la conexión con el chat IA
+ * @returns {Promise<{success: boolean, reply?: string, error?: string}>}
+ */
+export const testChatIA = async () => {
+  try {
+    console.log('🧪 Probando Chat IA...');
+    
+    const result = await sendChatMessage('Hola, ¿estás funcionando?');
+    
+    if (result.success) {
+      console.log('✅ Chat IA funcionando correctamente');
+      console.log('Respuesta:', result.reply);
+    } else {
+      console.error('❌ Chat IA no está respondiendo');
+    }
+    
+    return result;
     
   } catch (error) {
-    console.error('❌ Excepción en test:', error);
-    return { success: false, error: error.message };
+    console.error('❌ Excepción en test de chat:', error);
+    return { 
+      success: false, 
+      error: error.message 
+    };
   }
 };
