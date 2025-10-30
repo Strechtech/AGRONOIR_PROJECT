@@ -15,6 +15,7 @@ import {
   Clock,
   Users
 } from 'lucide-react';
+import Message_AI from '../UI/Message_AI'; // ← IMPORTAR EL CHAT
 
 // Constantes
 const SERVICES = [
@@ -96,8 +97,8 @@ const SECTORS = [
   "Metalmecánica",
   "Otro"
 ];
-function Services() {
 
+function Services() {
   return (
     // Seccion principal de servicios
     <div className="min-h-screen bg-gray-50">
@@ -112,7 +113,7 @@ function Services() {
             }}
           />
         </div>
-            {/* Seccion Principal -encabezado y titulo */}
+        {/* Seccion Principal - encabezado y titulo */}
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-[#fffbfb4f] backdrop-blur-sm px-6 py-3 rounded-full border border-[black] mb-8">
@@ -154,7 +155,7 @@ function Services() {
               return (
                 <div 
                   key={index}
-                  className="bg-[#00000072] rounded-2xl p-8 border border-slate-200  hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  className="bg-[#00000072] rounded-2xl p-8 border border-slate-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-14 h-14 bg-gradient-to-br from-[#0ad785] to-[#161515cf] rounded-xl flex items-center justify-center flex-shrink-0">
@@ -183,7 +184,7 @@ function Services() {
             })}
           </div>
 
-          {/* Seccion de Garantia  */}
+          {/* Seccion de Garantia */}
           <div className="bg-gradient-to-br from-[#00000069] to-[#00000011] rounded-2xl p-12 border border-blue-100">
             <h3 className="text-3xl font-bold text-center text-[white] mb-12">
               Nuestras Garantías
@@ -209,8 +210,10 @@ function Services() {
           </div>
         </div>
       </section>
-      </div>
 
+      {/* ✨ CHAT VIRTUAL CON IA - AQUÍ ESTÁ LA INTEGRACIÓN ✨ */}
+      <Message_AI />
+    </div>
   );
 }
 
