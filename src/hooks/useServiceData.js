@@ -96,7 +96,7 @@ const useServiceData = () => {
         "Software de gestión de inventarios (WMS)"
       ],
       images: [
-        { src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-ARPQOveyCzbs1bxPRmfieDvK5pS5x5YoBA&s', alt: 'Logística Industrial' },
+        { src: 'https://media.licdn.com/dms/image/v2/D5612AQEewO4fv_Kl1A/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1679006867302?e=2147483647&v=beta&t=ATZhw4F8u6YdGle2RJRLGX1_RyDUdsNfXyJL6D2EHdg', alt: 'Logística Industrial' },
       ]
     }
   ];
