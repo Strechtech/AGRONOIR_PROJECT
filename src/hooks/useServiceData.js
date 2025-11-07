@@ -68,7 +68,7 @@ const useServiceData = () => {
         "Estudios de calidad de energía"
       ],
       images: [
-        { src: 'https://soaint.com/wp-content/uploads/2024/07/eficiencia-energetica.jpg', alt: 'Sistemas Eléctricos' },
+        { src: 'https://priserperu.com/wp-content/uploads/instalaciones-electricas-industriales.webp', alt: 'Sistemas Eléctricos' },
       ]
     },
     {
